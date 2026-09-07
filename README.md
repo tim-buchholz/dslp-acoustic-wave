@@ -24,7 +24,7 @@ sources are included below `results/`.
 
 Commands in this README are intended to be run from the repository root unless
 the command explicitly changes directory. More detailed parameter descriptions
-are available in `DriversGuide.md`.
+are available in `EXPERIMENTS.md`.
 
 ## Installation and setup with Miniforge
 
