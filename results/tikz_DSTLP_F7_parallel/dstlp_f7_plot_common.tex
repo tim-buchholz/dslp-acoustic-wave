@@ -1,0 +1,182 @@
+\definecolor{dstlpblue}{RGB}{31,119,180}
+\definecolor{dstlpgreen}{RGB}{44,160,44}
+\definecolor{dstlpred}{RGB}{214,39,40}
+\definecolor{dstlpgray}{RGB}{128,128,128}
+\definecolor{dstlporange}{RGB}{255,127,14}
+
+\newcommand{\DSTLPFsevenTimeLoopScaling}[2]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=0.82\linewidth,
+        height=0.35\linewidth,
+        grid=major,
+        grid style={dashed,gray!30},
+        title={#2},
+        xlabel={MPI ranks / subdomains},
+        ylabel={time loop wall time [s]},
+        xmode=log,
+        ymode=log,
+        log basis x={2},
+        ymin=4e0,
+        ymax=1e3,
+        xmin=0.75,
+        xmax=80,
+        xtick={1,2,4,8,16,32,64,128},
+        minor x tick num=0,
+        unbounded coords=jump,
+        legend style={at={(0.97,0.97)},anchor=north east,font=\small},
+        legend columns=2,
+        legend cell align={left},
+        every axis plot/.append style={line width=1.3pt,mark size=2.5pt},
+      ]
+
+      \addplot+[mark=x,mark size=3.2pt,mark options={solid,dstlpred},dashed,dstlpred]
+        table[x=procs,y=cn_time_loop_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{CN}
+
+      \addplot+[mark=diamond*,mark options={fill=white},dstlpgreen]
+        table[x=procs,y=dstlp_time_loop_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{DSLP}
+
+      \addplot+[no markers,densely dashed,dstlpgray]
+        table[x=procs,y expr=290.054174/\thisrow{procs},col sep=comma] {\datapath/data/#1};
+      \addlegendentry{ideal speedup}
+    \end{axis}
+  \end{tikzpicture}%
+}
+
+\newcommand{\DSTLPFsevenTimeLoopScalingCompare}[3]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=0.82\linewidth,
+        height=0.35\linewidth,
+        grid=major,
+        grid style={dashed,gray!30},
+        title={#3},
+        xlabel={MPI ranks / subdomains},
+        ylabel={time loop wall time [s]},
+        xmode=log,
+        ymode=log,
+        log basis x={2},
+        ymin=4e0,
+        ymax=3e3,
+        xmin=0.75,
+        xmax=80,
+        xtick={1,2,4,8,16,32,64,128},
+        minor x tick num=0,
+        unbounded coords=jump,
+        legend style={at={(0.5,1.03)},anchor=south,font=\small},
+        legend columns=3,
+        legend cell align={left},
+        every axis plot/.append style={line width=1.3pt,mark size=2.5pt},
+      ]
+
+      \addplot+[mark=x,mark size=3.2pt,mark options={solid,dstlpred},dashed,dstlpred]
+        table[x=procs,y=cn_time_loop_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{CN, direct}
+
+      \addplot+[mark=diamond*,mark options={fill=white},dstlpgreen]
+        table[x=procs,y=dstlp_time_loop_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{DSLP, direct}
+
+      \addplot+[mark=square*,mark options={fill=white,dstlporange},densely dashed,dstlporange]
+        table[x=procs,y=cn_time_loop_s,col sep=comma] {\datapath/data/#2};
+      \addlegendentry{CN, CG-GAMG}
+
+      % \addplot+[mark=triangle*,mark options={fill=white,dstlpblue},densely dashed,dstlpblue]
+      %   table[x=procs,y=dstlp_time_loop_s,col sep=comma] {\datapath/data/#2};
+      % \addlegendentry{DSLP, CG-GAMG}
+
+      \addplot+[no markers,densely dashed,dstlpgray]
+        table[x=procs,y expr=290.054174/\thisrow{procs},col sep=comma] {\datapath/data/#1};
+      \addlegendentry{ideal speedup}
+    \end{axis}
+  \end{tikzpicture}%
+}
+
+\newcommand{\DSTLPFsevenExternalScalingCompare}[3]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=0.82\linewidth,
+        height=0.42\linewidth,
+        grid=major,
+        grid style={dashed,gray!30},
+        title={#3},
+        xlabel={MPI ranks / subdomains},
+        ylabel={total wall time [s]},
+        xmode=log,
+        ymode=log,
+        log basis x={2},
+        xmin=0.9,
+        xmax=140,
+        ymax=1e4,
+        xtick={1,2,4,8,16,32,64,128},
+        minor x tick num=0,
+        unbounded coords=jump,
+        legend style={at={(0.5,1.03)},anchor=south,font=\small},
+        legend columns=3,
+        legend cell align={left},
+        every axis plot/.append style={line width=1.3pt,mark size=2.5pt},
+      ]
+
+      \addplot+[mark=x,mark size=3.2pt,mark options={solid,dstlpred},dashed,dstlpred]
+        table[x=procs,y=cn_external_wall_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{CN, direct}
+
+      \addplot+[mark=diamond*,mark options={fill=white},dstlpgreen]
+        table[x=procs,y=dstlp_external_wall_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{DSLP, direct}
+
+      \addplot+[mark=square*,mark options={fill=white,dstlporange},densely dashed,dstlporange]
+        table[x=procs,y=cn_external_wall_s,col sep=comma] {\datapath/data/#2};
+      \addlegendentry{CN, CG-GAMG}
+
+      % \addplot+[mark=triangle*,mark options={fill=white,dstlpblue},densely dashed,dstlpblue]
+      %   table[x=procs,y=dstlp_external_wall_s,col sep=comma] {\datapath/data/#2};
+      % \addlegendentry{DSLP, CG-GAMG}
+
+      \addplot+[no markers,densely dashed,dstlpgray]
+        table[x=procs,y expr=357.262675/\thisrow{procs},col sep=comma] {\datapath/data/#1};
+      \addlegendentry{ideal speedup}
+    \end{axis}
+  \end{tikzpicture}%
+}
+
+\newcommand{\DSTLPFsevenExternalScaling}[2]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=0.82\linewidth,
+        height=0.42\linewidth,
+        grid=major,
+        grid style={dashed,gray!30},
+        title={#2},
+        xlabel={MPI ranks / subdomains},
+        ylabel={total wall time [s]},
+        xmode=log,
+        ymode=log,
+        log basis x={2},
+        xmin=1,
+        xmax=140,
+        xtick={1,2,4,8,16,32,64,128},
+        minor x tick num=0,
+        unbounded coords=jump,
+        legend style={at={(0.5,1.03)},anchor=south,font=\small},
+        legend columns=2,
+        legend cell align={left},
+        every axis plot/.append style={line width=1.3pt,mark size=2.5pt},
+      ]
+
+      \addplot+[mark=x,mark size=3.2pt,mark options={solid,dstlpred},dashed,dstlpred]
+        table[x=procs,y=cn_external_wall_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{CN}
+
+      \addplot+[mark=diamond*,mark options={fill=white},dstlpgreen]
+        table[x=procs,y=dstlp_external_wall_s,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{DSLP}
+
+      \addplot+[no markers,densely dashed,dstlpgray]
+        table[x=procs,y expr=357.262675/\thisrow{procs},col sep=comma] {\datapath/data/#1};
+      \addlegendentry{ideal speedup}
+    \end{axis}
+  \end{tikzpicture}%
+}

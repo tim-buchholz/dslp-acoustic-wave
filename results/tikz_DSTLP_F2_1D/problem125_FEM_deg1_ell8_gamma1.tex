@@ -1,0 +1,17 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{external}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{xcolor}
+
+\pgfplotsset{compat=newest}
+\providecommand{\datapath}{.}
+
+\input{dstlp_f2_plot_common.tex}
+
+\begin{document}
+% Problem 125, FEM degree 1, ell=8, gamma=1, min. pred. (2,1)
+\DSTLPFtwoProblemOneTwoFivePlot{problem125_FEM_deg1_ell8_gamma1_output.csv}
+{}{1}
+\end{document}

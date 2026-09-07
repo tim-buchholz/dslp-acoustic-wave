@@ -1,0 +1,21 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{external}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\newcommand{\ovp}{\ell_\mathrm{o}}
+\pgfplotsset{compat=newest}
+\providecommand{\datapath}{.}
+
+\input{dstlp_f3_plot_common.tex}
+
+\begin{document}
+% Overlap sweep: gamma=1, min. pred. (2,1)
+% Prediction-width sweep: ell=4, min. pred. (2,1)
+% Minimum prediction sweep: ell=4, gamma=1
+\DSTLPFthreeProblemOneTwoFivePlot
+{}
+{}
+{}
+\end{document}
