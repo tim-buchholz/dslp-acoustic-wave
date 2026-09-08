@@ -1,0 +1,20 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{external}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{xcolor}
+
+\pgfplotsset{compat=newest}
+\providecommand{\datapath}{.}
+
+\input{dstlp_f8_plot_common.tex}
+
+\begin{document}
+% F8 parallel pulse work-precision, bwUniCluster cpu_il, 64 MPI ranks/subdomains.
+% Pulse example, CN/DSTLP: h=0.002, degree 2, ell=4; LF: h=0.002, degree 1, mass lumped.
+% Reference: CN, h=0.001, degree 2, tau=2.5e-5, consistent mass.
+% Runtime axis uses only measured time-loop wall time.
+\DSTLPFeightTimeLoopWorkPrecision{f8_parallel_pulse_work_precision.csv}
+{}
+\end{document}

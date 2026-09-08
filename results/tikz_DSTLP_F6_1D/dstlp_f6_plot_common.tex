@@ -1,0 +1,93 @@
+\usepgfplotslibrary{groupplots}
+
+\definecolor{dstlpblue}{RGB}{31,119,180}
+\definecolor{dstlporange}{RGB}{255,127,14}
+\definecolor{dstlpgreen}{RGB}{44,160,44}
+\definecolor{dstlpred}{RGB}{214,39,40}
+\definecolor{dstlppurple}{RGB}{148,103,189}
+\definecolor{dstlpgray}{RGB}{128,128,128}
+\definecolor{dstlpblack}{RGB}{20,20,20}
+\definecolor{dstlpcyan}{RGB}{23,190,207}
+
+\newcommand{\DSTLPFsixProblemOneTwoFivePlot}[3]{%
+  \begin{tikzpicture}
+    \begin{groupplot}[
+        group style={
+          group size=1 by 3,
+          vertical sep=1cm,
+        },
+        width=0.75\linewidth,
+        height=0.29\linewidth,
+        grid=major,
+        grid style={dashed,gray!30},
+        xlabel={$\tau$},
+        ylabel={$\text{DSTLP}-\text{CN}$},
+        xmode=log,
+        ymode=log,
+        ymin=1e-12,
+        ymax=1e1,
+        unbounded coords=jump,
+        legend style={at={(0.995,0.02)},anchor=south east},
+        legend columns=2,
+        every axis plot/.append style={line width=1.3pt,mark size=2.5pt},
+      ]
+
+      \nextgroupplot[title={#1}]
+      \addplot+[mark=*,mark options={fill=white},dstlpblue]
+        table[x=tau,y index=1,col sep=comma] {\datapath/data/problem125_FEM_deg2_ell_sweep_output.csv};
+      \addlegendentry{$\ovp=1$}
+      \addplot+[mark=square*,mark options={fill=white},dstlporange]
+        table[x=tau,y index=2,col sep=comma] {\datapath/data/problem125_FEM_deg2_ell_sweep_output.csv};
+      \addlegendentry{$\ovp=2$}
+      \addplot+[mark=triangle*,mark options={fill=white},dstlpgreen]
+        table[x=tau,y index=3,col sep=comma] {\datapath/data/problem125_FEM_deg2_ell_sweep_output.csv};
+      \addlegendentry{$\ovp=4$}
+      \addplot+[mark=diamond*,mark options={fill=white},dstlpred]
+        table[x=tau,y index=4,col sep=comma] {\datapath/data/problem125_FEM_deg2_ell_sweep_output.csv};
+      \addlegendentry{$\ovp=8$}
+      \addplot+[mark=pentagon*,mark options={fill=white},dstlppurple]
+        table[x=tau,y index=5,col sep=comma] {\datapath/data/problem125_FEM_deg2_ell_sweep_output.csv};
+      \addlegendentry{$\ovp=16$}
+      \addplot+[mark=x,dstlpblack]
+        table[x=tau,y index=6,col sep=comma] {\datapath/data/problem125_FEM_deg2_ell_sweep_output.csv};
+      \addlegendentry{$\ovp=20$}
+
+      \nextgroupplot[title={#2}]
+      \addplot+[mark=*,mark options={fill=white},dstlpblue]
+        table[x=tau,y index=1,col sep=comma] {\datapath/data/problem125_FEM_deg2_gamma_sweep_output.csv};
+      \addlegendentry{$\eta=0.5$}
+      \addplot+[mark=square*,mark options={fill=white},dstlporange]
+        table[x=tau,y index=2,col sep=comma] {\datapath/data/problem125_FEM_deg2_gamma_sweep_output.csv};
+      \addlegendentry{$\eta=1$}
+      \addplot+[mark=triangle*,mark options={fill=white},dstlpgreen]
+        table[x=tau,y index=3,col sep=comma] {\datapath/data/problem125_FEM_deg2_gamma_sweep_output.csv};
+      \addlegendentry{$\eta=1.5$}
+      \addplot+[mark=diamond*,mark options={fill=white},dstlpred]
+        table[x=tau,y index=4,col sep=comma] {\datapath/data/problem125_FEM_deg2_gamma_sweep_output.csv};
+      \addlegendentry{$\eta=2$}
+
+      \nextgroupplot[title={#3}]
+      % \addplot+[mark=*,mark options={fill=white},dstlpblue]
+      %   table[x=tau,y index=1,col sep=comma] {\datapath/data/problem125_FEM_deg2_min_pred_sweep_output.csv};
+      % \addlegendentry{$(1,0)$}
+      \addplot+[mark=square*,mark options={fill=white},dstlporange]
+        table[x=tau,y index=2,col sep=comma] {\datapath/data/problem125_FEM_deg2_min_pred_sweep_output.csv};
+      \addlegendentry{$(1,1)$}
+      \addplot+[mark=triangle*,mark options={fill=white},dstlpgreen]
+        table[x=tau,y index=3,col sep=comma] {\datapath/data/problem125_FEM_deg2_min_pred_sweep_output.csv};
+      \addlegendentry{$(2,1)$}
+      \addplot+[mark=diamond*,mark options={fill=white},dstlpred]
+        table[x=tau,y index=4,col sep=comma] {\datapath/data/problem125_FEM_deg2_min_pred_sweep_output.csv};
+      \addlegendentry{$(2,2)$}
+      \addplot+[mark=pentagon*,mark options={fill=white},dstlppurple]
+        table[x=tau,y index=5,col sep=comma] {\datapath/data/problem125_FEM_deg2_min_pred_sweep_output.csv};
+      \addlegendentry{$(3,1)$}
+      \addplot+[mark=x,dstlpblack]
+        table[x=tau,y index=6,col sep=comma] {\datapath/data/problem125_FEM_deg2_min_pred_sweep_output.csv};
+      \addlegendentry{$(3,2)$}
+      \addplot+[mark=+,dstlpcyan]
+        table[x=tau,y index=7,col sep=comma] {\datapath/data/problem125_FEM_deg2_min_pred_sweep_output.csv};
+      \addlegendentry{$(3,3)$}
+    \end{groupplot}
+  \end{tikzpicture}%
+}

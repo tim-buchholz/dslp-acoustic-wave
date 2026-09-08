@@ -1,0 +1,52 @@
+\definecolor{dstlpblue}{RGB}{31,119,180}
+\definecolor{dstlpgreen}{RGB}{44,160,44}
+\definecolor{dstlpred}{RGB}{214,39,40}
+\definecolor{dstlppurple}{RGB}{148,103,189}
+\definecolor{dstlpgray}{RGB}{128,128,128}
+\definecolor{dstlpblack}{RGB}{20,20,20}
+
+\newcommand{\DSTLPFfiveProblemOneTwoFivePlot}[3]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=1.05\linewidth,
+        height=0.68\linewidth,
+        grid=major,
+        grid style={dashed,gray!30},
+        title={#2},
+        title style={yshift=-0.6ex},
+        xlabel={$\tau$},
+        ylabel={$H_0^1 \times L^2$ error},
+        xlabel near ticks,
+        ylabel near ticks,
+        xmode=log,
+        ymode=log,
+        ymin=1e-12,
+        ymax=1e2,
+        unbounded coords=jump,
+        legend style={at={(0.97,0.03)},anchor=south east},
+        legend columns=2,
+        every axis plot/.append style={line width=1.3pt,mark size=2.5pt},
+      ]
+
+      \addplot+[mark=triangle*,mark options={fill=white,rotate=180},dstlpblack]
+        table[x=tau,y index=2,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{lf}
+
+      \addplot+[mark=square*,mark options={solid, fill=white},dstlpgreen]
+        table[x=tau,y index=3,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{$\text{DSLP}_{8}$}
+
+      \addplot+[forget plot,mark=square*,mark options={solid, fill=white,draw=dstlpgreen},densely dashed,dstlpgreen]
+        table[x=tau,y index=4,col sep=comma] {\datapath/data/#1};
+      % \addlegendentry{$\text{DSTLP}_{8} - \text{CN}$}
+
+      \addplot+[mark=x,dstlpred]
+        table[x=tau,y index=1,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{CN}
+
+      \addplot+[no markers,dashed,dstlpgray]
+        table[x=tau,y index=5,col sep=comma] {\datapath/data/#1};
+      \addlegendentry{$\mathcal{O}(\tau^2)$}
+    \end{axis}
+  \end{tikzpicture}%
+}

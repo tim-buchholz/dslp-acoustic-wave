@@ -1,0 +1,20 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{external}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{xcolor}
+
+\pgfplotsset{compat=newest}
+\providecommand{\datapath}{.}
+
+\input{dstlp_f9_plot_common.tex}
+
+\begin{document}
+% F9 strong scaling, pulse example, bwUniCluster cpu_il.
+% CN/DSLP: h=0.002, degree 2, tau=1e-3, ell=4.
+% Reference: reused from F8 when REF_BP is set; otherwise CN, h=0.001, degree 2, tau=2.5e-5.
+% Total axis uses accounted wall time: meshing + solver setup + time loop.
+\DSTLPFnineExternalScaling{f9_parallel_strong_scaling.csv}
+{}
+\end{document}

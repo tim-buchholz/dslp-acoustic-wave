@@ -1,0 +1,201 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usetikzlibrary{calc,external}
+\pgfplotsset{compat=newest}
+\providecommand{\datapath}{.}
+
+\input{dstlp_f5_plot_common.tex}
+
+\begin{document}
+\begingroup 
+\newcommand{\DSTLPFfiveLeapfrogPlotWithLegend}[1]{%
+  \addplot+[mark=triangle*,mark options={fill=white,rotate=180},dstlpblack]
+    coordinates {#1}; 
+  \addlegendentry{lf}  
+}
+
+\newcommand{\DSTLPFfiveLeapfrogPlot}[1]{%
+  \addplot+[forget plot,mark=triangle*,mark options={fill=white,rotate=180},dstlpblack]
+    coordinates {#1};
+}
+
+\newcommand{\DSTLPFfiveReferencePlotWithLegend}[1]{%
+  \addplot+[mark=none,dashed,dstlpgray]
+    table[x=tau,y index=5,col sep=comma] {\datapath/data/#1};
+  \addlegendentry{$\mathcal{O}(\tau^2)$}
+}
+
+\newcommand{\DSTLPFfiveReferencePlot}[1]{%
+  \addplot+[forget plot,mark=none,dashed,dstlpgray]
+    table[x=tau,y index=5,col sep=comma] {\datapath/data/#1};
+}
+
+\newcommand{\DSTLPFfivePanelPlotsWithLegend}[1]{%
+  \addplot+[mark=square*,mark options={solid, fill=white},dstlpgreen]
+    table[x=tau,y index=3,col sep=comma] {\datapath/data/#1};
+  \addlegendentry{$\text{DSLP}_{8}$}
+
+  \addplot+[forget plot,mark=square*,mark options={solid, fill=dstlpgreen,draw=dstlpgreen},mark size=2,densely dashed,dstlpgreen]
+    table[x=tau,y index=4,col sep=comma] {\datapath/data/#1};
+
+  \addplot+[mark=x,dstlpred]
+    table[x=tau,y index=1,col sep=comma] {\datapath/data/#1};
+  \addlegendentry{CN}
+}
+
+\newcommand{\DSTLPFfivePanelPlots}[1]{%
+  \addplot+[forget plot,mark=square*,mark options={solid, fill=white},dstlpgreen]
+    table[x=tau,y index=3,col sep=comma] {\datapath/data/#1};
+
+  \addplot+[forget plot,mark=square*,mark options={solid, fill=dstlpgreen,draw=dstlpgreen},mark size=2,densely dashed,dstlpgreen]
+    table[x=tau,y index=4,col sep=comma] {\datapath/data/#1};
+
+  \addplot+[forget plot,mark=x,dstlpred]
+    table[x=tau,y index=1,col sep=comma] {\datapath/data/#1};
+}
+
+\begin{tikzpicture}
+  \begin{axis}[
+      width=7.0cm,
+      height=4.65cm,
+      grid=major,
+      grid style={dashed,gray!30},
+      xlabel={$\tau$},
+      ylabel={$H_0^1 \times L^2$ error},
+      xmode=log,
+      ymode=log,
+      log basis y=10,
+      ymin=1e-12,
+      ymax=1e2,
+      unbounded coords=jump,
+      title style={font=\small},
+      label style={font=\small},
+      tick label style={font=\scriptsize},
+      every axis plot/.append style={line width=1.3pt,mark size=2.4pt},
+      name=degone,
+      % FEM degree 1
+      title={},
+      legend to name=dstlpftwolegend,
+      legend columns=4,
+      legend style={
+        draw=none,
+        fill=none,
+        font=\small,
+        /tikz/every even column/.append style={column sep=0.9em},
+      },
+    ]
+    \DSTLPFfivePanelPlotsWithLegend{problem125_FEM_deg1_ell8_gamma1_output.csv}
+    \DSTLPFfiveLeapfrogPlotWithLegend{
+      (0.0006158393890873,1e20)
+      (0.0004281188457915,0.0058457857693471)
+      (0.0002976367640931,0.0056664188672921)
+      (0.0002069108214359,0.0055821578252732)
+      (0.0001438434982738,0.0055420336958466)
+      (0.0001,0.0055227640255362)
+    }
+    \DSTLPFfiveReferencePlotWithLegend{problem125_FEM_deg1_ell8_gamma1_output.csv}
+  \end{axis}
+
+  \begin{axis}[
+      width=7.0cm,
+      height=4.65cm,
+      grid=major,
+      grid style={dashed,gray!30},
+      xlabel={$\tau$},
+      ylabel={$H_0^1 \times L^2$ error},
+      xmode=log,
+      ymode=log,
+      log basis y=10,
+      ymin=1e-12,
+      ymax=1e2,
+      unbounded coords=jump,
+      title style={font=\small},
+      label style={font=\small},
+      tick label style={font=\scriptsize},
+      every axis plot/.append style={line width=1.3pt,mark size=2.4pt},
+      name=degtwo,
+      % FEM degree 2
+      title={},
+      at={(degone.outer north east)},
+      anchor=outer north west,
+      xshift=0.35cm,
+    ] 
+    \DSTLPFfivePanelPlots{problem125_FEM_deg2_ell8_gamma1_output.csv}
+    \DSTLPFfiveLeapfrogPlot{
+      (0.0002976367640931,1e20)
+      (0.0002069108214359,0.0001819547973302)
+      (0.0001438434982738,0.0001019102865922)
+      (0.0001,0.00006369534099626861)
+    }
+    \DSTLPFfiveReferencePlot{problem125_FEM_deg2_ell8_gamma1_output.csv}
+  \end{axis}
+
+  \begin{axis}[
+      width=7.0cm,
+      height=4.65cm,
+      grid=major,
+      grid style={dashed,gray!30},
+      xlabel={$\tau$},
+      ylabel={$H_0^1 \times L^2$ error},
+      xmode=log,
+      ymode=log,
+      log basis y=10,
+      ymin=1e-12,
+      ymax=1e2,
+      unbounded coords=jump,
+      title style={font=\small},
+      label style={font=\small},
+      tick label style={font=\scriptsize},
+      every axis plot/.append style={line width=1.3pt,mark size=2.4pt},
+      name=degthree,
+      % FEM degree 3
+      title={},
+      at={(degone.outer south west)},
+      anchor=outer north west,
+      yshift=0cm,
+    ]
+    \DSTLPFfivePanelPlots{problem125_FEM_deg3_ell8_gamma1_output.csv}
+    \DSTLPFfiveLeapfrogPlot{
+      (0.0001438434982738,1e20)
+      (0.0001,0.00004887755585360682)
+    }
+    \DSTLPFfiveReferencePlot{problem125_FEM_deg3_ell8_gamma1_output.csv}
+  \end{axis}
+
+  \begin{axis}[
+      width=7.0cm,
+      height=4.65cm,
+      grid=major,
+      grid style={dashed,gray!30},
+      xlabel={$\tau$},
+      ylabel={$H_0^1 \times L^2$ error},
+      xmode=log,
+      ymode=log,
+      log basis y=10,
+      ymin=1e-12,
+      ymax=1e2,
+      unbounded coords=jump,
+      title style={font=\small},
+      label style={font=\small},
+      tick label style={font=\scriptsize},
+      every axis plot/.append style={line width=1.3pt,mark size=2.4pt},
+      name=degfour,
+      % FEM degree 4
+      title={},
+      at={(degthree.outer north east)},
+      anchor=outer north west,
+      xshift=0.35cm,
+    ]
+    \DSTLPFfivePanelPlots{problem125_FEM_deg4_ell8_gamma1_output.csv}
+    \DSTLPFfiveReferencePlot{problem125_FEM_deg4_ell8_gamma1_output.csv}
+  \end{axis}
+
+  \node[anchor=north] at ([yshift=-0.35cm]$(degthree.outer south east)!0.5!(degfour.outer south west)$)
+    {\pgfplotslegendfromname{dstlpftwolegend}};
+\end{tikzpicture}
+\endgroup
+\end{document}
